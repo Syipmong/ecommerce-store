@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const styles = {
   container: {
     textAlign: 'center',
     padding: '50px',
-    backgroundImage: 'url("background.jpg")', // Replace with your background image
+    backgroundImage: 'url("public/logo512.png")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     minHeight: '100vh',
@@ -69,7 +70,9 @@ export default function Landing() {
       <div style={styles.overlay}>
         <h1 style={styles.heading}>Welcome to Amina Store</h1>
         <p style={styles.paragraph}>Simplifying purchases and making them easier for you.</p>
-        <button style={styles.button}>Shop Now</button>
+        <Link to="/store">
+          <button style={styles.button}>Shop Now</button>
+        </Link>
       </div>
 
       <div style={styles.featuredProducts}>
@@ -85,7 +88,7 @@ export default function Landing() {
           {/* <h3>Skin Care Lotion</h3> */}
           {/* <p>Description of Product 2</p> */}
         </div>
-        {/* Add more featured products as needed */}
+        
       </div>
 
       <div style={styles.footer}>
