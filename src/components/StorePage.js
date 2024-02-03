@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const styles = {
   container: {
@@ -90,7 +91,9 @@ export default function StorePage() {
             <img src={product.image} alt={product.name} style={styles.productImage} />
             <h3 style={styles.productName}>{product.name}</h3>
             <p style={styles.productDescription}>{product.description}</p>
-            <button style={styles.button}>View Product</button>
+            <Link to={`/product/${product.id}`}>
+              <button style={styles.button}>View Product</button>
+            </Link>
           </div>
         ))}
       </div>
