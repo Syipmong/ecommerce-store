@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import productsData from './prods';
 
@@ -32,9 +32,16 @@ const styles = {
     fontWeight: 'bold',
     margin: '5px 0',
   },
-  productDescription: {
-    fontSize: '14px',
-    color: '#555',
+  price: {
+    fontSize: '16px',
+    color: '#333',
+    fontWeight: 'bold',
+    margin: '5px 0',
+  },
+  shortDescription: {
+    maxHeight: '80px',
+    overflow: 'hidden',
+    marginBottom: '10px',
   },
   button: {
     padding: '10px',
@@ -45,22 +52,38 @@ const styles = {
     borderRadius: '5px',
     cursor: 'pointer',
   },
-  shortDescription: {
-    maxHeight: '80px', 
-    overflow: 'hidden',
+  searchInput: {
+    padding: '8px',
+    width: '100%',
+    marginBottom: '20px',
+    borderRadius: '5px',
+    border: '1px solid #ddd',
   },
 };
 
-
 export default function StorePage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  const filteredProducts = productsData.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div style={styles.container}>
       <h1>Our Products</h1>
+      <input
+        type="text"
+        placeholder="Search products..."
+        style={styles.searchInput}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       <div style={styles.productsContainer}>
-        {productsData.map((product) => (
+        {filteredProducts.map((product) => (
           <div key={product.id} style={styles.product}>
             <img src={product.image} alt={product.name} style={styles.productImage} />
             <h3 style={styles.productName}>{product.name}</h3>
+            <p style={styles.price}>${product.price}</p>
             <p style={styles.shortDescription}>{product.description}</p>
             <Link to={`/product/${product.id}`}>
               <button style={styles.button}>View Product</button>

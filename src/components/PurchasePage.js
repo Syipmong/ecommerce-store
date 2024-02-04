@@ -21,6 +21,7 @@ const styles = {
   },
   paymentButton: {
     padding: '10px',
+    marginRight: '10px',
     backgroundColor: '#27ae60',
     color: 'white',
     border: 'none',

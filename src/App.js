@@ -7,6 +7,7 @@ import StorePage from '../src/components/StorePage';
 import ProductDetailPage from './components/ProductDetailPage';
 import PurchasePage from './components/PurchasePage';
 import CartPage from './components/CartPage';
+import AuthPage from './components/AuthPage';
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
         <Route path="/product/:productId" element={<ProductDetailPage />} />
         <Route path="/store/:productId/purchase" element={<PurchasePage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path='/signin' element={<AuthPage/>} />
+        <Route path='/signup' element={<AuthPage/>} />
       </Routes>
     </Router>
   );

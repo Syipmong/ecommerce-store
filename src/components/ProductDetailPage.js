@@ -46,7 +46,7 @@ const styles = {
     alignItems: 'center',
   },
   buyButton: {
-    padding: '20px',
+    padding: '10px',
     backgroundColor: '#27ae60',
     color: 'white',
     border: 'none',
@@ -124,7 +124,7 @@ export default function ProductDetailPage() {
         <div style={{ maxWidth: '400px', width: '100%' }}>
           <h2 style={styles.productName}>{product.name}</h2>
           <p style={styles.priceTag}>Price: {product.price}</p>
-          <p style={styles.longDescription}>{product.description}</p>
+          <p style={styles.longDescription}>{product.productDetail}</p>
         </div>
         <div>
           <button style={styles.buyButton} onClick={handleBuyClick}>Buy</button>
