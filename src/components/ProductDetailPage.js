@@ -3,6 +3,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {ProductProvider, useProduct } from './ProductContext';
+import productsData from './prods';
 
 const styles = {
   container: {
@@ -77,47 +78,14 @@ const styles = {
   },
 };
 
-const products = [
-  {
-    id: 1,
-    name: 'Product 1',
-    
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    image: 'https://static.thcdn.com/images/large/webp//productimg/1600/1600/12766623-1744897139190294.jpg',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut lab',
-    image: 'https://static.thcdn.com/images/large/webp//productimg/1600/1600/12766623-1744897139190294.jpg',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    image: 'https://static.thcdn.com/images/large/webp//productimg/1600/1600/12766623-1744897139190294.jpg',
-  },
-  {
-    id: 4,
-    name: 'Product 4',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    image: 'https://static.thcdn.com/images/large/webp//productimg/1600/1600/12766623-1744897139190294.jpg',
-  },
-  {
-    id: 5,
-    name: 'Product 5',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    image: 'https://static.thcdn.com/images/large/webp//productimg/1600/1600/12766623-1744897139190294.jpg',
-  },
-  // products will be added dynamically
-];
+
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { productId } = useParams();
   const {setProduct} = useProduct();
 
-  const product = products.find((p) => p.id.toString() === productId);
+  const product = productsData.find((p) => p.id.toString() === productId);
 
   if (!product) {
     // Handle the case where the product is not found
@@ -147,6 +115,7 @@ export default function ProductDetailPage() {
         <img src={product.image} alt={product.name} style={styles.productImage} />
         <div style={{ maxWidth: '400px', width: '100%' }}>
           <h2 style={styles.productName}>{product.name}</h2>
+          <p style={styles.priceTag}>Price: {product.price}</p>
           <p style={styles.longDescription}>{product.description}</p>
         </div>
         <div>

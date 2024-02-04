@@ -1,9 +1,5 @@
-// PurchasePage.js
-
-import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProduct } from './ProductContext';
-
 
 const styles = {
   container: {
@@ -33,57 +29,41 @@ const styles = {
   },
 };
 
-const products = [
-    {
-        id: 1,
-        name: 'Product 1',
-        price: 100,
-    },
-    {
-        id: 2,
-        name: 'Product 2',
-        price: 200,
-    },
-    {
-        id: 3,
-        name: 'Product 3',
-        price: 300,
-    },
-
-    ];
-
-
-
 export default function PurchasePage() {
   const navigate = useNavigate();
   const { productId } = useParams();
-    const { selectedProduct } = useProduct();
+  const { selectedProduct } = useProduct();
 
   // Simulating the quantity state
-  const [quantity, setQuantity] = useState(1);
-
-  const product = products.find((p) => p.id.toString() === productId);
+  const quantity = 1;
 
   if (!selectedProduct) {
     return <p>Product not found</p>;
   }
 
+ 
+
+  const { name, price } = selectedProduct;
+
   const handlePayment = () => {
     // Simulate the payment process, you can replace this with your payment gateway integration
-    const totalAmount = product.price * quantity;
-    alert(`Processing payment for ${quantity} ${product.name}(s) - Total: $${totalAmount}`);
+    const totalAmount = price * quantity;
+    alert(`Processing payment for ${quantity} ${name}(s) - Total: $${totalAmount}`);
     // Redirect to a thank you page or order summary
     navigate('/thank-you');
   };
 
   const goBack = () => {
-    navigate(`/store/${productId}`);
+    navigate(`/product/${productId}`);
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.purchaseDetail}>
-        <h2 style={styles.totalAmount}>Total Amount: ${product.price * quantity}</h2>
+        <h2>{name}</h2>
+        <p>Quantity: {quantity}</p>
+        <p>Price: ${price}</p>
+        <h2 style={styles.totalAmount}>Total Amount: ${price * quantity}</h2>
         <button style={styles.paymentButton} onClick={handlePayment}>
           Proceed to Payment
         </button>
