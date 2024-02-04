@@ -6,13 +6,18 @@ const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   const setProduct = (product) => {
     setSelectedProduct(product);
   };
 
+  const updateQuantity = (newQuantity) => {
+    setQuantity(newQuantity);
+  };
+
   return (
-    <ProductContext.Provider value={{ selectedProduct, setProduct }}>
+    <ProductContext.Provider value={{ selectedProduct, setProduct, quantity, updateQuantity }}>
       {children}
     </ProductContext.Provider>
   );

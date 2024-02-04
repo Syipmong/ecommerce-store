@@ -32,10 +32,9 @@ const styles = {
 export default function PurchasePage() {
   const navigate = useNavigate();
   const { productId } = useParams();
-  const { selectedProduct } = useProduct();
+  const { selectedProduct, quantity } = useProduct();
 
-  // Simulating the quantity state
-  const quantity = 1;
+
 
   if (!selectedProduct) {
     return <p>Product not found</p>;
@@ -63,7 +62,7 @@ export default function PurchasePage() {
         <h2>{name}</h2>
         <p>Quantity: {quantity}</p>
         <p>Price: ${price}</p>
-        <h2 style={styles.totalAmount}>Total Amount: ${price * quantity}</h2>
+        <h2 style={styles.totalAmount}>Total Amount: ${price * quantity} </h2>
         <button style={styles.paymentButton} onClick={handlePayment}>
           Proceed to Payment
         </button>

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {ProductProvider, useProduct } from './ProductContext';
 import productsData from './prods';
 
+
 const styles = {
   container: {
     textAlign: 'center',
@@ -45,7 +46,7 @@ const styles = {
     alignItems: 'center',
   },
   buyButton: {
-    padding: '10px',
+    padding: '20px',
     backgroundColor: '#27ae60',
     color: 'white',
     border: 'none',
@@ -83,7 +84,7 @@ const styles = {
 export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { productId } = useParams();
-  const {setProduct} = useProduct();
+  const {setProduct, updateQuantity} = useProduct();
 
   const product = productsData.find((p) => p.id.toString() === productId);
 
@@ -100,13 +101,20 @@ export default function ProductDetailPage() {
   const handleBuyClick = () => {
     // Handle the buy button click
     setProduct(product);
+    const quantityInput = document.getElementById('quantityInput');
+    const quantityValue = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+    updateQuantity(quantityValue);
     navigate(`/store/${productId}/purchase`);
-  }
+}
 
-  const handleAddToCartClick = () => {
-    // Handle the add to cart button click
-    alert(`Adding ${product.name} to cart`)
-  }
+
+// const handleAddToCartClick = () => {
+//   // Handle the add to cart button click
+//   const quantityInput = document.getElementById('quantityInput');
+//   const quantityValue = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+//   // You can update the cart or perform other actions with the quantityValue
+//   alert(`Adding ${quantityValue} ${product.name}(s) to cart`);
+// };
 
   return (
     <ProductProvider>
@@ -120,7 +128,7 @@ export default function ProductDetailPage() {
         </div>
         <div>
           <button style={styles.buyButton} onClick={handleBuyClick}>Buy</button>
-          <button style={styles.addToCartButton} onClick={handleAddToCartClick}>Add to Cart</button>
+          {/* <button style={styles.addToCartButton} onClick={handleAddToCartClick}>Add to Cart</button> */}
           <input type="number" style={styles.quantityInput} defaultValue="1" min="1" />
         </div>
         <button style={styles.backButton} onClick={goBack}>
