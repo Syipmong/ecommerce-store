@@ -69,7 +69,10 @@ export default function StorePage() {
     const fetchProducts = async () => {
       try {
         const productCollection = await firestore.collection('products').get();
-        const productsData = productCollection.docs.map((doc) => doc.data());
+        const productsData = productCollection.docs.map((doc) => ({
+          productId : doc.id,
+          ...doc.data(),
+        }));
         setProducts(productsData);
       } catch (err) {
         alert(`Error getting products ${err.message}`);
@@ -98,6 +101,7 @@ export default function StorePage() {
           <div key={product.id} style={styles.product}>
             <img src={product.image} alt={product.name} style={styles.productImage} />
             <h3 style={styles.productName}>{product.name}</h3>
+            {/* <p>{product.productId}</p> */}
             <p style={styles.price}>${product.price}</p>
             <p style={styles.shortDescription}>{product.description}</p>
             <Link to={`/product/${product.id}`}>

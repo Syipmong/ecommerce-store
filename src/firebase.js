@@ -1,8 +1,10 @@
 // firebase.js
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+import 'firebase/compat/storage';
 
-import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore';
-
+// require('dotenv').config();
 const firebaseConfig = {
    apiKey: "AIzaSyAI6-TkzIVAfxjKq-Qq6Z9oEibc1hFsLBo",
   authDomain: "dr-amina.firebaseapp.com",
@@ -13,10 +15,13 @@ const firebaseConfig = {
   measurementId: "G-073K35HBX4"
 };
 
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
 
-export { firestore };
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+export const storage = firebase.storage();
+
+export default firebase;
 
 
 
