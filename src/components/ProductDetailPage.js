@@ -1,9 +1,9 @@
 // ProductDetailPage.js
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {ProductProvider, useProduct } from './ProductContext';
-import productsData from './prods';
+import { firestore } from '../firebase';
 
 
 const styles = {
@@ -80,18 +80,29 @@ const styles = {
 };
 
 
-
 export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { productId } = useParams();
-  const {setProduct, updateQuantity} = useProduct();
+  const { setProduct, updateQuantity } = useProduct();
+  const [product, setProductDetails] = useState({});
 
-  const product = productsData.find((p) => p.id.toString() === productId);
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const productDoc = await firestore.collection('products').doc(productId).get();
+        if (productDoc.exists) {
+          setProductDetails(productDoc.data());
+        } else {
+          // Handle the case where the product is not found
+          console.error('Product not found in Firestore');
+        }
+      } catch (error) {
+        console.error(`Error fetching product details: ${error.message}`);
+      }
+    };
 
-  if (!product) {
-    // Handle the case where the product is not found
-    return <p>Product not found</p>;
-  }
+    fetchProductDetails();
+  }, [productId]);
 
   const goBack = () => {
     setProduct(null);
@@ -105,37 +116,33 @@ export default function ProductDetailPage() {
     const quantityValue = quantityInput ? parseInt(quantityInput.value, 10) : 1;
     updateQuantity(quantityValue);
     navigate(`/store/${productId}/purchase`);
-}
-
-
-// const handleAddToCartClick = () => {
-//   // Handle the add to cart button click
-//   const quantityInput = document.getElementById('quantityInput');
-//   const quantityValue = quantityInput ? parseInt(quantityInput.value, 10) : 1;
-//   // You can update the cart or perform other actions with the quantityValue
-//   alert(`Adding ${quantityValue} ${product.name}(s) to cart`);
-// };
+  };
 
   return (
     <ProductProvider>
-    <div style={styles.container}>
-       <div style={styles.productDetail}>
-        <img src={product.image} alt={product.name} style={styles.productImage} />
-        <div style={{ maxWidth: '400px', width: '100%' }}>
-          <h2 style={styles.productName}>{product.name}</h2>
-          <p style={styles.priceTag}>Price: {product.price}</p>
-          <p style={styles.longDescription}>{product.productDetail}</p>
-        </div>
-        <div>
-          <button style={styles.buyButton} onClick={handleBuyClick}>Buy</button>
-          {/* <button style={styles.addToCartButton} onClick={handleAddToCartClick}>Add to Cart</button> */}
-          <input type="number" style={styles.quantityInput} defaultValue="1" min="1" />
-        </div>
-        <button style={styles.backButton} onClick={goBack}>
-          Back to Store
-        </button>
+      <div style={styles.container}>
+        {product ? (
+          <div style={styles.productDetail}>
+            <img src={product.image} alt={product.name} style={styles.productImage} />
+            <div style={{ maxWidth: '400px', width: '100%' }}>
+              <h2 style={styles.productName}>{product.name}</h2>
+              <p style={styles.priceTag}>Price: {product.price}</p>
+              <p style={styles.longDescription}>{product.productDetail}</p>
+            </div>
+            <div>
+              <button style={styles.buyButton} onClick={handleBuyClick}>
+                Buy
+              </button>
+              <input type="number" style={styles.quantityInput} defaultValue="1" min="1" />
+            </div>
+            <button style={styles.backButton} onClick={goBack}>
+              Back to Store
+            </button>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
-    </div>
     </ProductProvider>
   );
 }

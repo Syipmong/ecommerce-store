@@ -70,7 +70,7 @@ export default function StorePage() {
       try {
         const productCollection = await firestore.collection('products').get();
         const productsData = productCollection.docs.map((doc) => ({
-          productId : doc.id,
+          productId: doc.id,
           ...doc.data(),
         }));
         setProducts(productsData);
@@ -98,15 +98,18 @@ export default function StorePage() {
       />
       <div style={styles.productsContainer}>
         {filteredProducts.map((product) => (
-          <div key={product.id} style={styles.product}>
-            <img src={product.image} alt={product.name} style={styles.productImage} />
+          <div key={product.productId} style={styles.product}>
+            <img
+              src={product.image}
+              alt={product.name}
+              style={styles.productImage}
+            />
             <h3 style={styles.productName}>{product.name}</h3>
-            {/* <p>{product.productId}</p> */}
             <p style={styles.price}>${product.price}</p>
-            <p style={styles.shortDescription}>{product.description}</p>
-            <Link to={`/product/${product.id}`}>
-              <button style={styles.button}>View Product</button>
-            </Link>
+            {/* <p style={styles.shortDescription}>{product.description}</p> */}
+            <Link to={`/store/product/${product.productId}`}>
+  <button style={styles.button}>View Product</button>
+</Link>
           </div>
         ))}
       </div>
