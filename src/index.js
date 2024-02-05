@@ -1,16 +1,17 @@
-// index.js
-
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ProductProvider } from './components/ProductContext';
 import { CartProvider } from './components/CartContext';
 
-ReactDOM.render(
-    <ProductProvider>
-      <CartProvider>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <ProductProvider>
+    <CartProvider>
+      <React.StrictMode>
         <App />
-      </CartProvider>
-    </ProductProvider>,
-  document.getElementById('root')
+      </React.StrictMode>
+    </CartProvider>
+  </ProductProvider>
 );

@@ -1,11 +1,11 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('./path/to/your/serviceAccountKey.json'); 
+import { initializeApp, credential as _credential, firestore } from 'firebase-admin';
+import serviceAccount from './path/to/your/serviceAccountKey.json'; 
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+initializeApp({
+  credential: _credential.cert(serviceAccount),
 });
 
-const db = admin.firestore();
+const db = firestore();
 
 const testData = [
   { name: 'Product 1', price: 19.99, description: 'Sample description 1', image: 'url1' },
