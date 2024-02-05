@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import productsData from './prods';
+import { firestore } from '../firebase';
 
 const styles = {
   container: {
@@ -63,8 +63,23 @@ const styles = {
 
 export default function StorePage() {
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const filteredProducts = productsData.filter((product) =>
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productCollection = await firestore.collection('products').get();
+        const productsData = productCollection.docs.map((doc) => doc.data());
+        setProducts(productsData);
+      } catch (err) {
+        alert(`Error getting products ${err.message}`);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 

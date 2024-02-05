@@ -5,7 +5,7 @@ const styles = {
   container: {
     textAlign: 'center',
     padding: '50px',
-    backgroundImage: 'url("public/logo512.png")',
+    backgroundImage: 'url("src/assets/shopping.svg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     minHeight: '100vh',
