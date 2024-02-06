@@ -1,6 +1,7 @@
 // AdminPage.js
 import React, { useState } from 'react';
 import { firestore } from '../../firebase';
+import { v4 as uuidv4 } from 'uuid';
 
 const styles = {
   container: {
@@ -58,9 +59,9 @@ const AdminPage = () => {
 
   const handleAddProduct = async () => {
     try {
-      const docRef = await firestore.collection('products').add(productData);
-      // eslint-disable-next-line no-unused-vars
-      const productId = docRef.id;
+      const productCode = uuidv4(); // Generate unique product code using UUID
+      const dataToAdd = { ...productData, productCode }; // Include product code in product data
+      const docRef = await firestore.collection('products').add(dataToAdd);
       alert("Product added successfully!")
     } catch (error) {
       alert(`Error adding product: ${error.message}`);

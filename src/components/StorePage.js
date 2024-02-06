@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { firestore } from '../firebase';
+import { v4 as uuidv4 } from 'uuid';
 
 const styles = {
   container: {
@@ -31,6 +32,11 @@ const styles = {
     fontSize: '18px',
     fontWeight: 'bold',
     margin: '5px 0',
+  },
+  productCode: {
+    fontSize: '14px',
+    color: '#666',
+    marginBottom: '5px',
   },
   price: {
     fontSize: '16px',
@@ -92,13 +98,14 @@ export default function StorePage() {
         const productCollection = await firestore.collection('products').get();
         const productsData = productCollection.docs.map((doc) => ({
           productId: doc.id,
+          productCode: uuidv4(),
           ...doc.data(),
         }));
         setProducts(productsData);
 
         setTimeout(() => {
           setLoading(false);
-        }, 5000);
+        }, 2000);
       } catch (err) {
         alert(`Error getting products ${err.message}`);
         setLoading(false);
@@ -157,6 +164,7 @@ export default function StorePage() {
                   style={styles.productImage}
                 />
                 <h3 style={styles.productName}>{product.name}</h3>
+                <p style={styles.productCode}>Code: {product.productCode}</p> {/* Display product code */}
                 <p style={styles.price}>${product.price}</p>
                 <Link to={`/store/product/${product.productId}`}>
                   <button style={styles.button}>View Product</button>
