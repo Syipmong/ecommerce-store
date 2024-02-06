@@ -61,6 +61,7 @@ const AdminPage = () => {
       const docRef = await firestore.collection('products').add(productData);
       // eslint-disable-next-line no-unused-vars
       const productId = docRef.id;
+      alert("Product added successfully!")
     } catch (error) {
       alert(`Error adding product: ${error.message}`);
     }
