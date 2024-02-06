@@ -84,7 +84,7 @@ const styles = {
 export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { productId } = useParams();
-  const { setProduct, updateQuantity } = useProduct();
+  const { currentUser, setProduct, updateQuantity } = useProduct();
   const [product, setProductDetails] = useState({});
 
   useEffect(() => {
@@ -110,6 +110,13 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyClick = () => {
+    if (!currentUser) {
+      // If user is not authenticated, redirect to login page
+      navigate('/login');
+      return;
+    }
+
+    // Proceed with the purchase
     setProduct(product);
     const quantityInput = document.getElementById('quantityInput');
     const quantityValue = quantityInput ? parseInt(quantityInput.value, 10) : 1;

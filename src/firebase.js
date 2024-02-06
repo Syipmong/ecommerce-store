@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/storage';
+// import { useEffect, useState } from 'react';
 
 // require('dotenv').config();
 const firebaseConfig = {
@@ -17,9 +18,25 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const storage = firebase.storage();
+
+// export const useAuth = () => {
+//   const [currentUser, setCurrentUser] = useState(null);
+
+//   useEffect(() => {
+//     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+//       setCurrentUser(user);
+//     });
+
+//     return () => unsubscribe();
+//   }, []);
+
+//   return { currentUser };
+// };
 
 export default firebase;
 

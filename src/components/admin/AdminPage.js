@@ -1,6 +1,7 @@
 // AdminPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { firestore, storage } from '../../firebase';
+import Navbar from '../NavBar';
 
 const styles = {
   container: {
@@ -37,6 +38,15 @@ const styles = {
     borderRadius: '5px',
     cursor: 'pointer',
   },
+  productItem: {
+    marginBottom: '20px',
+    border: '1px solid #ddd',
+    padding: '10px',
+    borderRadius: '8px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 };
 
 const AdminPage = () => {
@@ -44,11 +54,29 @@ const AdminPage = () => {
     name: '',
     price: '',
     description: '',
-    image: null, // Store the image file object
+    image: null,
     sellerName: '',
     sellerPhone: '',
     sellerEmail: '',
   });
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productCollection = await firestore.collection('products').get();
+        const productsData = productCollection.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,34 +90,36 @@ const AdminPage = () => {
 
   const handleAddProduct = async () => {
     try {
-      // Generate a unique product code
       const productCode = Math.floor(100000 + Math.random() * 900000).toString();
-
-      // Upload image to Firebase Storage with product code as filename
       const imageRef = storage.ref(`images/${productCode}`);
       await imageRef.put(productData.image);
-
-      // Get the download URL of the uploaded image
       const imageUrl = await imageRef.getDownloadURL();
-
-      // Include product code and image URL in product data
       const dataToAdd = {
         ...productData,
         productCode,
         image: imageUrl,
       };
-
-      // Add product data to Firestore with product code as document name
       await firestore.collection('products').doc(productCode).set(dataToAdd);
-
       alert('Product added successfully!');
     } catch (error) {
       alert(`Error adding product: ${error.message}`);
     }
   };
 
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await firestore.collection('products').doc(productId).delete();
+      const updatedProducts = products.filter((product) => product.id !== productId);
+      setProducts(updatedProducts);
+      alert('Product deleted successfully!');
+    } catch (error) {
+      alert(`Error deleting product: ${error.message}`);
+    }
+  };
+
   return (
     <div style={styles.container}>
+      <Navbar/>
       <h1>Admin Dashboard</h1>
       <div style={styles.dashboard}>
         <div style={styles.formContainer}>
@@ -128,32 +158,19 @@ const AdminPage = () => {
             Add Product
           </button>
         </div>
-        <div style={styles.formContainer}>
-          <h2>Seller Information</h2>
-          <input
-            type="text"
-            placeholder="Seller Name"
-            name="sellerName"
-            style={styles.inputField}
-            value={productData.sellerName}
-            onChange={handleInputChange}
-          />
-          <input
-            type="tel"
-            placeholder="Seller Phone"
-            name="sellerPhone"
-            style={styles.inputField}
-            value={productData.sellerPhone}
-            onChange={handleInputChange}
-          />
-          <input
-            type="email"
-            placeholder="Seller Email"
-            name="sellerEmail"
-            style={styles.inputField}
-            value={productData.sellerEmail}
-            onChange={handleInputChange}
-          />
+        <div>
+          <h2>Products List</h2>
+          {products.map((product) => (
+            <div key={product.id} style={styles.productItem}>
+              <div>
+                <p>{product.name}</p>
+                <p>${product.price}</p>
+              </div>
+              <div>
+                <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

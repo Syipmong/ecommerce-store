@@ -7,8 +7,9 @@ import StorePage from '../src/components/StorePage';
 import ProductDetailPage from './components/ProductDetailPage';
 import PurchasePage from './components/PurchasePage';
 import CartPage from './components/CartPage';
-import AuthPage from './components/AuthPage';
 import AdminPage from './components/admin/AdminPage';
+import SignupPage from './components/auth/SignupPage';
+import LoginPage from './components/auth/LoginPage';
 
 export default function App() {
   return (
@@ -19,9 +20,9 @@ export default function App() {
         <Route path="/store/product/:productId" element={<ProductDetailPage />} />
         <Route path="/store/:productId/purchase" element={<PurchasePage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/admin/collection" element={<AdminPage />} />
-        <Route path="/signin" element={<AuthPage />} />
-        <Route path="/signup" element={<AuthPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/login" element={LoginPage} />
+        <Route path="/signup" element={SignupPage} />
       </Routes>
     </Router>
   );

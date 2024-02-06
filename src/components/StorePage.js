@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { firestore } from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
+import Navbar from './NavBar';
 
 const styles = {
   container: {
@@ -83,6 +84,24 @@ const styles = {
     borderRadius: '5px',
     backgroundColor: '#fff',
   },
+  loadingSpinner: {
+    border: '4px solid rgba(0, 0, 0, 0.1)',
+    borderTop: '4px solid #3498db',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    animation: 'spin 1s linear infinite', // Ensure animation is properly defined
+    margin: '20px auto',
+  },
+  // Define the CSS animation
+  '@keyframes spin': {
+    '0%': {
+      transform: 'rotate(0deg)',
+    },
+    '100%': {
+      transform: 'rotate(360deg)',
+    },
+  },
 };
 
 export default function StorePage() {
@@ -132,6 +151,7 @@ export default function StorePage() {
 
   return (
     <div style={styles.container}>
+      <Navbar/>
       <h1>Our Products</h1>
       <input
         type="text"
@@ -141,7 +161,7 @@ export default function StorePage() {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       {loading ? (
-        <p style={styles.loading}>Loading...</p>
+        <div style={styles.loadingSpinner} /> 
       ) : (
         <React.Fragment>
           <div style={styles.pagination}>

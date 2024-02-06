@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './components/NavBar';
 
 const styles = {
   container: {
@@ -67,6 +68,7 @@ const styles = {
 export default function Landing() {
   return (
     <div style={styles.container}>
+      <Navbar/>
       <div style={styles.overlay}>
         <h1 style={styles.heading}>Welcome to Amina Store</h1>
         <p style={styles.paragraph}>Simplifying purchases and making them easier for you.</p>
