@@ -1,7 +1,7 @@
 // AdminPage.js
 import React, { useState } from 'react';
 import { firestore } from '../../firebase';
-import { v4 as uuidv4 } from 'uuid';
+
 
 const styles = {
   container: {
@@ -54,14 +54,25 @@ const AdminPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Validate if the input is numeric and has exactly 6 digits for productCode
+    if (name === 'productCode' && !/^\d{0,6}$/.test(value)) {
+      return;
+    }
+
     setProductData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleAddProduct = async () => {
     try {
-      const productCode = uuidv4(); // Generate unique product code using UUID
-      const dataToAdd = { ...productData, productCode }; // Include product code in product data
-      const docRef = await firestore.collection('products').add(dataToAdd);
+      // Generate a 6-digit numeric product code
+      const productCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Include product code in product data
+      const dataToAdd = { ...productData, productCode };
+
+      // Add product data to Firestore
+      await firestore.collection('products').add(dataToAdd);
       alert("Product added successfully!")
     } catch (error) {
       alert(`Error adding product: ${error.message}`);
@@ -84,7 +95,7 @@ const AdminPage = () => {
           />
           <input
             type="text"
-            placeholder="Product Code"
+            placeholder="Product Code (6 digits)"
             name="productCode"
             style={styles.inputField}
             value={productData.productCode}
