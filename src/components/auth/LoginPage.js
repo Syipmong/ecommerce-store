@@ -1,5 +1,6 @@
 // LoginPage.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -69,6 +70,7 @@ const LoginPage = () => {
         <button style={styles.actionButton} onClick={handleLogin}>
           Login
         </button>
+        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
       </div>
     </div>
   );

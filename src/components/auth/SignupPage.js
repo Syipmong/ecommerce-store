@@ -1,7 +1,7 @@
-// SignupPage.js
 import React, { useState } from 'react';
-import { auth } from '../../firebase';
-import {useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { auth, firestore } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
   container: {
@@ -35,14 +35,26 @@ const styles = {
 };
 
 const SignupPage = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [country, setCountry] = useState('');
   const [password, setPassword] = useState('');
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
-      await auth.createUserWithEmailAndPassword(email, password);
-      history.push('/store'); // Redirect to store page after signup
+      // Create user in authentication system
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      
+      // Save additional user information to Firestore
+      await firestore.collection('users').doc(userCredential.user.uid).set({
+        name,
+        email,
+        country,
+      });
+
+      // Redirect to store page after signup
+      navigate('/store');
     } catch (error) {
       alert(`Error signing up: ${error.message}`);
     }
@@ -53,11 +65,25 @@ const SignupPage = () => {
       <div style={styles.formContainer}>
         <h2>Sign Up</h2>
         <input
+          type="text"
+          placeholder="Name"
+          style={styles.inputField}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
           type="email"
           placeholder="Email"
           style={styles.inputField}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Country"
+          style={styles.inputField}
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
         />
         <input
           type="password"
@@ -69,6 +95,7 @@ const SignupPage = () => {
         <button style={styles.actionButton} onClick={handleSignup}>
           Sign Up
         </button>
+        <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>
     </div>
   );

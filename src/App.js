@@ -21,8 +21,8 @@ export default function App() {
         <Route path="/store/:productId/purchase" element={<PurchasePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/login" element={LoginPage} />
-        <Route path="/signup" element={SignupPage} />
+        <Route path="/login" element={<LoginPage/>} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </Router>
   );
