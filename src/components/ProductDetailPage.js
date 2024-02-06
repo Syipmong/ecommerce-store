@@ -1,10 +1,7 @@
-// ProductDetailPage.js
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {ProductProvider, useProduct } from './ProductContext';
+import { ProductProvider, useProduct } from './ProductContext';
 import { firestore } from '../firebase';
-
 
 const styles = {
   container: {
@@ -13,72 +10,76 @@ const styles = {
   },
   productDetail: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    maxWidth: '800px',
+    width: '70%',
+    margin: '0 auto',
     border: '1px solid #ddd',
     borderRadius: '8px',
-    padding: '20px',
-    maxWidth: '600px', // Adjust the maxWidth as needed
-    width: '70%', // Adjust the width as needed
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    margin: '0 auto',
   },
   productImage: {
-    width: '100%',
-    height: '200px',
-    objectFit: 'contain',
-    borderRadius: '5px',
-    marginBottom: '10px',
+    width: '400px',
+    height: '400px',
+    objectFit: 'cover',
+    borderRadius: '8px 0 0 8px',
+  },
+  detailsContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '20px',
   },
   productName: {
-    fontSize: '24px',
+    fontSize: '28px',
     fontWeight: 'bold',
     margin: '10px 0',
   },
-  longDescription: {
-    fontSize: '16px',
-    color: '#555',
-    marginBottom: '20px',
+  priceTag: {
+    fontSize: '24px',
+    color: '#333',
+    fontWeight: 'bold',
+    margin: '10px 0',
   },
   buySection: {
+    alignSelf: 'flex-end',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    marginBottom: '20px',
   },
   buyButton: {
-    padding: '10px',
+    padding: '15px',
     backgroundColor: '#27ae60',
     color: 'white',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '8px',
     cursor: 'pointer',
-    margin: '10px',
-  },
-  addToCartButton: {
-    padding: '10px',
-    backgroundColor: '#f39c12',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    margin: '10px',
+    margin: '10px 0',
+    fontSize: '18px',
   },
   quantityInput: {
-    padding: '8px',
+    padding: '10px',
     width: '60px',
     textAlign: 'center',
-    borderRadius: '5px',
+    borderRadius: '8px',
+    fontSize: '16px',
+    marginBottom: '10px',
   },
   backButton: {
-    padding: '10px',
+    padding: '15px',
     backgroundColor: '#3498db',
     color: 'white',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '8px',
     cursor: 'pointer',
+    fontSize: '18px',
+  },
+  longDescription: {
+    fontSize: '18px',
+    color: '#555',
+    marginBottom: '20px',
   },
 };
-
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
@@ -93,7 +94,6 @@ export default function ProductDetailPage() {
         if (productDoc.exists) {
           setProductDetails(productDoc.data());
         } else {
-          // Handle the case where the product is not found
           console.error('Product not found in Firestore');
         }
       } catch (error) {
@@ -110,7 +110,6 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyClick = () => {
-    // Handle the buy button click
     setProduct(product);
     const quantityInput = document.getElementById('quantityInput');
     const quantityValue = quantityInput ? parseInt(quantityInput.value, 10) : 1;
@@ -124,20 +123,20 @@ export default function ProductDetailPage() {
         {product ? (
           <div style={styles.productDetail}>
             <img src={product.image} alt={product.name} style={styles.productImage} />
-            <div style={{ maxWidth: '400px', width: '100%' }}>
+            <div style={styles.detailsContainer}>
               <h2 style={styles.productName}>{product.name}</h2>
-              <p style={styles.priceTag}>Price: {product.price}</p>
-              <p style={styles.longDescription}>{product.productDetail}</p>
-            </div>
-            <div>
-              <button style={styles.buyButton} onClick={handleBuyClick}>
-                Buy
+              <p style={styles.priceTag}>Price: ${product.price}</p>
+              <div style={styles.buySection}>
+                <button style={styles.buyButton} onClick={handleBuyClick}>
+                  Buy
+                </button>
+                <input type="number" style={styles.quantityInput} defaultValue="1" min="1" />
+              </div>
+              <p style={styles.longDescription}>{product.description}</p>
+              <button style={styles.backButton} onClick={goBack}>
+                Back to Store
               </button>
-              <input type="number" style={styles.quantityInput} defaultValue="1" min="1" />
             </div>
-            <button style={styles.backButton} onClick={goBack}>
-              Back to Store
-            </button>
           </div>
         ) : (
           <p>Loading...</p>

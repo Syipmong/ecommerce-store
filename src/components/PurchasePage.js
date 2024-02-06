@@ -46,10 +46,8 @@ export default function PurchasePage() {
   const { name, price } = selectedProduct;
 
   const handlePayment = () => {
-    // Simulate the payment process, you can replace this with your payment gateway integration
     const totalAmount = price * quantity;
     alert(`Processing payment for ${quantity} ${name}(s) - Total: $${totalAmount}`);
-    // Redirect to a thank you page or order summary
     navigate('/thank-you');
   };
 

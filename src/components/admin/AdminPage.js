@@ -7,9 +7,15 @@ const styles = {
     textAlign: 'center',
     padding: '50px',
   },
+  dashboard: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+  },
   formContainer: {
-    maxWidth: '400px',
-    margin: '0 auto',
+    width: '400px',
+    margin: '20px',
     border: '1px solid #ddd',
     borderRadius: '8px',
     padding: '20px',
@@ -36,26 +42,25 @@ const styles = {
 const AdminPage = () => {
   const [productData, setProductData] = useState({
     name: '',
+    productCode: '',
     price: '',
     description: '',
     image: '',
+    sellerName: '',
+    sellerPhone: '',
+    sellerEmail: '',
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductData((prevData) => ({ ...prevData, [name]: value }));
-
   };
 
   const handleAddProduct = async () => {
-
     try {
-
       const docRef = await firestore.collection('products').add(productData);
       // eslint-disable-next-line no-unused-vars
       const productId = docRef.id;
-      alert('Product added successfully!');
-      // You can clear the form or perform other actions after successful addition
     } catch (error) {
       alert(`Error adding product: ${error.message}`);
     }
@@ -63,42 +68,80 @@ const AdminPage = () => {
 
   return (
     <div style={styles.container}>
-      <h1>Admin Page</h1>
-      <div style={styles.formContainer}>
-        <input
-          type="text"
-          placeholder="Product Name"
-          name="name"
-          style={styles.inputField}
-          value={productData.name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          placeholder="Price"
-          name="price"
-          style={styles.inputField}
-          value={productData.price}
-          onChange={handleInputChange}
-        />
-        <textarea
-          placeholder="Description"
-          name="description"
-          style={styles.inputField}
-          value={productData.description}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          placeholder="Image URL"
-          name="image"
-          style={styles.inputField}
-          value={productData.image}
-          onChange={handleInputChange}
-        />
-        <button style={styles.actionButton} onClick={handleAddProduct}>
-          Add Product
-        </button>
+      <h1>Admin Dashboard</h1>
+      <div style={styles.dashboard}>
+        <div style={styles.formContainer}>
+          <h2>Add Product</h2>
+          <input
+            type="text"
+            placeholder="Product Name"
+            name="name"
+            style={styles.inputField}
+            value={productData.name}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Product Code"
+            name="productCode"
+            style={styles.inputField}
+            value={productData.productCode}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Price"
+            name="price"
+            style={styles.inputField}
+            value={productData.price}
+            onChange={handleInputChange}
+          />
+          <textarea
+            placeholder="Description"
+            name="description"
+            style={styles.inputField}
+            value={productData.description}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Image URL"
+            name="image"
+            style={styles.inputField}
+            value={productData.image}
+            onChange={handleInputChange}
+          />
+          <button style={styles.actionButton} onClick={handleAddProduct}>
+            Add Product
+          </button>
+        </div>
+        <div style={styles.formContainer}>
+          <h2>Seller Information</h2>
+          <input
+            type="text"
+            placeholder="Seller Name"
+            name="sellerName"
+            style={styles.inputField}
+            value={productData.sellerName}
+            onChange={handleInputChange}
+          />
+          <input
+            type="tel"
+            placeholder="Seller Phone"
+            name="sellerPhone"
+            style={styles.inputField}
+            value={productData.sellerPhone}
+            onChange={handleInputChange}
+          />
+          <input
+            type="email"
+            placeholder="Seller Email"
+            name="sellerEmail"
+            style={styles.inputField}
+            value={productData.sellerEmail}
+            onChange={handleInputChange}
+          />
+        </div>
       </div>
     </div>
   );

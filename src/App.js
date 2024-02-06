@@ -16,7 +16,6 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/store" element={<StorePage />} />
-        {/* Corrected route for the product detail page */}
         <Route path="/store/product/:productId" element={<ProductDetailPage />} />
         <Route path="/store/:productId/purchase" element={<PurchasePage />} />
         <Route path="/cart" element={<CartPage />} />

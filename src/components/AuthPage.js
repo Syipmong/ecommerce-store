@@ -42,12 +42,10 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
 
   const handleSignIn = () => {
-    // Handle sign in logic (you can integrate with Firebase or any other authentication service)
     console.log('Signing in with:', email, password);
   };
 
   const handleSignUp = () => {
-    // Handle sign up logic
     console.log('Signing up with:', email, password);
   };
 

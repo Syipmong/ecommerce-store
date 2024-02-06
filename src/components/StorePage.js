@@ -59,11 +59,32 @@ const styles = {
     borderRadius: '5px',
     border: '1px solid #ddd',
   },
+  loading: {
+    fontSize: '20px',
+    marginTop: '20px',
+  },
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px',
+  },
+  pageButton: {
+    padding: '10px',
+    margin: '5px 5px',
+    marginBottom: '50px',
+    cursor: 'pointer',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    backgroundColor: '#fff',
+  },
 };
 
 export default function StorePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(24);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -74,17 +95,33 @@ export default function StorePage() {
           ...doc.data(),
         }));
         setProducts(productsData);
+
+        setTimeout(() => {
+          setLoading(false);
+        }, 5000);
       } catch (err) {
         alert(`Error getting products ${err.message}`);
+        setLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter((product) =>
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const filteredProducts = currentItems.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <div style={styles.container}>
@@ -96,23 +133,50 @@ export default function StorePage() {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <div style={styles.productsContainer}>
-        {filteredProducts.map((product) => (
-          <div key={product.productId} style={styles.product}>
-            <img
-              src={product.image}
-              alt={product.name}
-              style={styles.productImage}
-            />
-            <h3 style={styles.productName}>{product.name}</h3>
-            <p style={styles.price}>${product.price}</p>
-            {/* <p style={styles.shortDescription}>{product.description}</p> */}
-            <Link to={`/store/product/${product.productId}`}>
-  <button style={styles.button}>View Product</button>
-</Link>
+      {loading ? (
+        <p style={styles.loading}>Loading...</p>
+      ) : (
+        <React.Fragment>
+          <div style={styles.pagination}>
+            {pageNumbers.map((number) => (
+              <div
+                key={number}
+                style={styles.pageButton}
+                onClick={() => paginate(number)}
+              >
+                {number}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <div style={styles.productsContainer}>
+            {filteredProducts.map((product) => (
+              <div key={product.productId} style={styles.product}>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  style={styles.productImage}
+                />
+                <h3 style={styles.productName}>{product.name}</h3>
+                <p style={styles.price}>${product.price}</p>
+                <Link to={`/store/product/${product.productId}`}>
+                  <button style={styles.button}>View Product</button>
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div style={styles.pagination}>
+            {pageNumbers.map((number) => (
+              <div
+                key={number}
+                style={styles.pageButton}
+                onClick={() => paginate(number)}
+              >
+                {number}
+              </div>
+            ))}
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 }
