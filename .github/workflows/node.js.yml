@@ -1,5 +1,6 @@
 # name: Node.js CI
-
+# about: Build and test using Node.js on GitHub Actions
+# services: Containers, GitHub Actions
 # on:
 #   push:
 #     branches: [ "master" ]
@@ -34,8 +35,6 @@
 #       - name: Build
 #         run: npm run build --if-present
 
-#       # - name: Run tests
-#       #   run: npm test
 
 #       - name: Display Node.js and npm versions
 #         run: |
