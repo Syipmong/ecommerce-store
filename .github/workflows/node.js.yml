@@ -56,5 +56,4 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 
-        #   secrets.FIREBASE_TOKEN
       
