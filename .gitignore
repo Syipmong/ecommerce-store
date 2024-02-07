@@ -22,7 +22,7 @@
 .env
 
 # Ignore firebase.js file
-/src/firebase.js
+firebase.js
 
 
 npm-debug.log*
