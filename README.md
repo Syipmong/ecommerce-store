@@ -1,6 +1,6 @@
 # Amina Store
 
-![Amina Store Logo](src\assets\shopping.svg)
+![Amina Store](src/assets/shopping.svg)
 
 Amina Store is an e-commerce platform that simplifies purchases and makes them easier for users. 
 
