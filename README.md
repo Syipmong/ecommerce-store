@@ -49,5 +49,5 @@ We would like to thank the following individuals and projects for their contribu
 
 ## Contact
 If you have any questions, feedback, or suggestions, feel free to reach out to us:
-- Email: contact@aminastore.com
+- Email: syipmong5@gmail.com
 - Twitter: [@aminastore](https://twitter.com/syipmong)
