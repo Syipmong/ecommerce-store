@@ -21,6 +21,9 @@
 # Ignore .env file
 .env
 
+#ignore firebase file
+src/firebase.js
+
 # Ignore firebase.js file
 firebase.js
 
