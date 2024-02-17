@@ -1,6 +1,6 @@
-[![Deploy to Firebase Hosting on merge](https://github.com/Syipmong/ecommerce-store/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/Syipmong/ecommerce-store/actions/workflows/firebase-hosting-merge.yml)          [![Node.js CI](https://github.com/Syipmong/ecommerce-store/actions/workflows/node.js.yml/badge.svg)](https://github.com/Syipmong/ecommerce-store/actions/workflows/node.js.yml)
-
 # Amina Store
+
+[![Deploy to Firebase Hosting on merge](https://github.com/Syipmong/ecommerce-store/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/Syipmong/ecommerce-store/actions/workflows/firebase-hosting-merge.yml)          [![Node.js CI](https://github.com/Syipmong/ecommerce-store/actions/workflows/node.js.yml/badge.svg)](https://github.com/Syipmong/ecommerce-store/actions/workflows/node.js.yml)
 
 ![Amina Store](src/assets/shopping.svg)
 
